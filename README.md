@@ -109,5 +109,5 @@ curl -X POST http://localhost:8000/calculate \
 <br />
 
 <div align="center">
-  <p>Built with 🖤 for Civil Engineers and Software Architects.</p>
+  <p>Built for Civil Engineers and Software Architects.</p>
 </div>
