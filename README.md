@@ -30,10 +30,18 @@ What used to take structural engineers ~2 hours of manual spreadsheet manipulati
 
 The backend is complemented by a "Dark Glass" inspired UI dashboard that provides immediate visual feedback.
 
-- **Dynamic 3D Visualizer**: Real-time `Three.js` integration visually represents the building geometry and roof pitch.
+- **Dynamic 3D Visualizer**: Real-time `Three.js` integration with interactive pressure zoning labels.
+- **Real-Time Calculation Engine**: Instant data updates as inputs change, powered by a debounced reactive frontend.
 - **Metric / Imperial Bridge**: Real-time unit conversions allowing US and European engineers to collaborate seamlessly.
 - **Persistent Workspaces**: SQLite database integration to save, load, and manage complex projects across sessions.
 - **Interactive Wind Map**: Integrated Leaflet map to fetch regional basic wind speeds ($v_{b,0}$).
+- **Vercel Deployed**: Optimized for serverless deployment with a FastAPI + Frontend architecture.
+
+<br />
+
+## 🔗 Live Application
+The latest version of the Wind Load Engine is deployed on Vercel:
+**[https://windload-calculator.vercel.app/](https://windload-calculator.vercel.app/)**
 
 <br />
 
