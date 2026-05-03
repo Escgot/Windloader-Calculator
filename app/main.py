@@ -26,7 +26,8 @@ from fastapi.responses import StreamingResponse
 # Database Setup
 # ---------------------------------------------------------------------------
 
-DB_PATH = "wind_projects.db"
+# On Vercel, only /tmp is writable; locally, use project root
+DB_PATH = "/tmp/wind_projects.db" if os.environ.get("VERCEL") else "wind_projects.db"
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
@@ -61,7 +62,9 @@ app = FastAPI(
     license_info={"name": "MIT"},
 )
 
-app.mount("/static", StaticFiles(directory="public"), name="static")
+# Mount static files only when running locally (Vercel CDN handles them)
+if not os.environ.get("VERCEL"):
+    app.mount("/static", StaticFiles(directory="public"), name="static")
 
 # ---------------------------------------------------------------------------
 # Request / Response schemas
@@ -230,7 +233,10 @@ class WindResponse(BaseModel):
 @app.get("/", tags=["Frontend"])
 def root():
     """Serve the demo frontend."""
-    return FileResponse("public/index.html")
+    return FileResponse(
+        "public/index.html",
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
+    )
 
 
 @app.post(

@@ -39,3 +39,11 @@ venv311/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Vercel
+.vercel/
+
+# Coverage
+.coverage
+
+.vercel

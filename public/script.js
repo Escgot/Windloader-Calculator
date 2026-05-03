@@ -37,10 +37,12 @@ function updateUnitLabels() {
     document.querySelector('label[for="vb0"]').innerHTML = `Basic Wind Speed (v<sub>b,0</sub>) [${u.speed}]`;
     document.querySelector('label[for="h"]').innerHTML = `Building Height (h) [${u.dist}]`;
     document.querySelector('label[for="d"]').innerHTML = `Building Depth (d) [${u.dist}]`;
+    document.querySelector('label[for="w"]').innerHTML = `Building Width (w) [${u.dist}]`;
     const s = (id, txt) => { const el = document.getElementById(id); if(el) el.textContent = txt; };
     s('lbl-vb0-unit', `[${u.speed}]`);
     s('lbl-h-unit',   `[${u.dist}]`);
     s('lbl-d-unit',   `[${u.dist}]`);
+    s('lbl-w-unit',   `[${u.dist}]`);
     s('lbl-z-unit',   `[${u.dist}]`);
     s('lbl-rho-unit', `[${u.density}]`);
     // result units
@@ -55,6 +57,7 @@ function convertInputs(from, to) {
     const vb0 = document.getElementById('vb0');
     const h = document.getElementById('h');
     const d = document.getElementById('d');
+    const w = document.getElementById('w');
     const z = document.getElementById('z');
     const rho = document.getElementById('rho');
 
@@ -62,12 +65,14 @@ function convertInputs(from, to) {
         vb0.value = (parseFloat(vb0.value) * CONV.ms_to_mph).toFixed(1);
         h.value = (parseFloat(h.value) * CONV.m_to_ft).toFixed(1);
         d.value = (parseFloat(d.value) * CONV.m_to_ft).toFixed(1);
+        w.value = (parseFloat(w.value) * CONV.m_to_ft).toFixed(1);
         z.value = (parseFloat(z.value) * CONV.m_to_ft).toFixed(1);
         rho.value = (parseFloat(rho.value) * CONV.kgm3_to_lbft3).toFixed(3);
     } else {
         vb0.value = (parseFloat(vb0.value) / CONV.ms_to_mph).toFixed(1);
         h.value = (parseFloat(h.value) / CONV.m_to_ft).toFixed(1);
         d.value = (parseFloat(d.value) / CONV.m_to_ft).toFixed(1);
+        w.value = (parseFloat(w.value) / CONV.m_to_ft).toFixed(1);
         z.value = (parseFloat(z.value) / CONV.m_to_ft).toFixed(1);
         rho.value = (parseFloat(rho.value) / CONV.kgm3_to_lbft3).toFixed(2);
     }
@@ -424,20 +429,20 @@ document.getElementById('calc-btn').addEventListener('click', async () => {
     btnText.style.display = 'none';
     btnLoader.style.display = 'block';
 
-    const h_raw = parseFloat(document.getElementById('h').value);
-    const d_raw = parseFloat(document.getElementById('d').value);
-    const vb0_raw = parseFloat(document.getElementById('vb0').value);
-    const z_raw = parseFloat(document.getElementById('z').value);
-    const rho_raw = parseFloat(document.getElementById('rho').value);
+    const h_raw = parseFloat(document.getElementById('h').value) || 10;
+    const d_raw = parseFloat(document.getElementById('d').value) || 20;
+    const w_raw = parseFloat(document.getElementById('w').value) || 20;
+    const vb0_raw = parseFloat(document.getElementById('vb0').value) || 25;
+    const z_raw = parseFloat(document.getElementById('z').value) || 10;
+    const rho_raw = parseFloat(document.getElementById('rho').value) || 1.25;
 
     // Normalize to SI for backend
     const h   = currentSystem === 'imperial' ? h_raw   / CONV.m_to_ft      : h_raw;
     const d   = currentSystem === 'imperial' ? d_raw   / CONV.m_to_ft      : d_raw;
+    const w   = currentSystem === 'imperial' ? w_raw   / CONV.m_to_ft      : w_raw;
     const vb0 = currentSystem === 'imperial' ? vb0_raw / CONV.ms_to_mph    : vb0_raw;
     const z   = currentSystem === 'imperial' ? z_raw   / CONV.m_to_ft      : z_raw;
     const rho = currentSystem === 'imperial' ? rho_raw / CONV.kgm3_to_lbft3 : rho_raw;
-
-    const w = 20;
 
     const formData = {
         vb0, terrain_cat: document.getElementById('terrain_cat').value,
@@ -469,15 +474,31 @@ document.getElementById('calc-btn').addEventListener('click', async () => {
         const pFac = currentSystem === 'imperial' ? CONV.pa_to_psf * 1000 : 1;
         const sFac = currentSystem === 'imperial' ? CONV.ms_to_mph : 1;
 
-        const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
 
-        // KPIs
-        set('res-qp',  (data.qp_kpa * pFac).toFixed(3));
-        set('res-vm',  (data.vm * sFac).toFixed(1));
-        set('res-net', (data.total_net_kpa * pFac).toFixed(3));
+        // KPIs & Key Results
+        const qp = data.qp_kpa;
+        const wnetd = data.wnet_d_kpa;
+        const wnete = data.wnet_e_kpa;
+        const roofSuctions = [data.we_f/1000, data.we_g/1000, data.we_h/1000, data.we_i/1000];
+        const maxSuction = Math.min(wnete, ...roofSuctions);
+        const maxPressure = Math.max(wnetd, 0); // Usually D is the only pressure zone
+        const resultantForce = data.total_net_kpa * h * w; // kN
+
+        set('res-qp',  (qp * pFac).toFixed(2));
+        set('res-max-suction', (maxSuction * pFac).toFixed(2));
+        set('res-max-pressure', (maxPressure * pFac).toFixed(2));
+        set('res-force', resultantForce.toFixed(0)); // force usually doesn't need scaling if imperial is lbf, but let's keep it simple. Actually let's handle imperial force if needed.
+        
+        const fFac = currentSystem === 'imperial' ? CONV.pa_to_psf * Math.pow(CONV.m_to_ft, 2) * 1000 : 1; // Wait, 1 kN = 224.8 lbf. For simplicity we'll just show kN if metric, kips if imperial.
+        // If imperial: force in kips = force in kN * 0.224809
+        const force_disp = currentSystem === 'imperial' ? resultantForce * 0.224809 : resultantForce;
+        set('res-force', force_disp.toFixed(1));
+
         set('res-qp-unit',  u.press);
-        set('res-vm-unit',  u.speed);
-        set('res-net-unit', u.press);
+        set('res-max-suction-unit',  u.press);
+        set('res-max-pressure-unit', u.press);
+        set('res-force-unit', currentSystem === 'imperial' ? 'kips' : 'kN');
 
         // Wall coeffs & pressures
         set('res-cped',  data.cpe_d.toFixed(2));
@@ -493,6 +514,28 @@ document.getElementById('calc-btn').addEventListener('click', async () => {
 
         set('res-terrain-desc', data.terrain_description);
         set('res-terrain-badge', `Cat. ${formData.terrain_cat}`);
+
+        // Update Trace
+        set('tr-vb', (vb0 * sFac).toFixed(1));
+        set('tr-cr', data.cr.toFixed(3));
+        set('tr-vm', (data.vm * sFac).toFixed(1));
+        set('tr-iv', data.iv.toFixed(3));
+        set('tr-qp', (qp * pFac).toFixed(3));
+        document.querySelector('#tr-vb').nextElementSibling.textContent = u.speed;
+        document.querySelector('#tr-vm').nextElementSibling.textContent = u.speed;
+        document.querySelector('#tr-qp').nextElementSibling.textContent = u.press;
+
+        // Draw Chart
+        drawChart(data, pFac, u.press);
+
+        // Update Legend values
+        document.getElementById('legend-max-press').textContent = '+' + maxPressure.toFixed(1);
+        document.getElementById('legend-max-suct').textContent = maxSuction.toFixed(1);
+        document.getElementById('legend-unit-lbl').textContent = u.press;
+        document.getElementById('color-legend').style.display = 'flex';
+
+        // Add Text Sprites to 3D
+        addTextSprites(w, h, d, data);
 
         // Show results, hide empty state
         if (resultsEmpty) resultsEmpty.style.display = 'none';
@@ -605,7 +648,6 @@ document.getElementById('excel-btn').addEventListener('click', async () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
         });
-
         if (!response.ok) {
             const errData = await response.json();
             throw new Error(errData.detail || 'Failed to generate Excel');
@@ -627,5 +669,154 @@ document.getElementById('excel-btn').addEventListener('click', async () => {
         // Hide loading state
         btnText.style.display = 'block';
         btnLoader.style.display = 'none';
+    }
+});
+
+// --- Calculation Trace Toggle ---
+document.getElementById('trace-toggle-btn').addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const content = document.getElementById('trace-content');
+    btn.classList.toggle('open');
+    content.classList.toggle('open');
+});
+
+// --- Chart.js Rendering ---
+let pressureChart = null;
+
+function drawChart(data, pFac, unit) {
+    const ctx = document.getElementById('pressureChart').getContext('2d');
+    
+    const labels = ['D (Windward)', 'E (Leeward)', 'F (Corner)', 'G (Edge)', 'H (Interior)', 'I (Center)'];
+    const values = [
+        data.wnet_d_kpa * pFac,
+        data.wnet_e_kpa * pFac,
+        (data.we_f/1000) * pFac,
+        (data.we_g/1000) * pFac,
+        (data.we_h/1000) * pFac,
+        (data.we_i/1000) * pFac
+    ];
+
+    const backgroundColors = values.map(v => v > 0 ? 'rgba(239, 68, 68, 0.7)' : 'rgba(59, 130, 246, 0.7)');
+    const borderColors = values.map(v => v > 0 ? '#ef4444' : '#3b82f6');
+
+    if (pressureChart) {
+        pressureChart.destroy();
+    }
+
+    pressureChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: `Net Pressure (${unit})`,
+                data: values,
+                backgroundColor: backgroundColors,
+                borderColor: borderColors,
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return ` ${context.parsed.y.toFixed(2)} ${unit}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#94a3b8', font: {family: "'JetBrains Mono', monospace"} }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#94a3b8', font: {size: 10} }
+                }
+            }
+        }
+    });
+}
+
+// --- Three.js Text Sprites ---
+const sprites = [];
+
+function makeSprite(text, color) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 256;
+    canvas.height = 128;
+
+    ctx.font = 'bold 32px Inter, sans-serif';
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // Add small background glow
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 8;
+    ctx.fillText(text, 128, 64);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    const spriteMaterial = new THREE.SpriteMaterial({ map: texture, depthTest: false });
+    const sprite = new THREE.Sprite(spriteMaterial);
+    sprite.scale.set(10, 5, 1);
+    return sprite;
+}
+
+function addTextSprites(w, h, d, data) {
+    // Remove old sprites
+    sprites.forEach(s => scene.remove(s));
+    sprites.length = 0;
+
+    // +z Windward D
+    const spriteD = makeSprite(`Cpe: +${data.cpe_d.toFixed(2)}`, '#fca5a5');
+    spriteD.position.set(0, h/2, d/2 + 0.5);
+    scene.add(spriteD);
+    sprites.push(spriteD);
+
+    // -z Leeward E
+    const spriteE = makeSprite(`Cpe: ${data.cpe_e.toFixed(2)}`, '#93c5fd');
+    spriteE.position.set(0, h/2, -d/2 - 0.5);
+    scene.add(spriteE);
+    sprites.push(spriteE);
+
+    // Roof Top
+    const spriteRoof = makeSprite('Zones F-I', '#fcd34d');
+    spriteRoof.position.set(0, h + 2, 0);
+    scene.add(spriteRoof);
+    sprites.push(spriteRoof);
+}
+
+// --- Real-time Interaction ---
+// Debounce helper
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => { clearTimeout(timeout); func(...args); };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+const autoCalc = debounce(() => {
+    // Only auto-calc if results aren't hidden (i.e. user already did initial compute)
+    if (!document.getElementById('results-card').classList.contains('results-hidden')) {
+        document.getElementById('calc-btn').click();
+    }
+}, 500);
+
+// Attach to inputs
+const inputsToWatch = ['vb0', 'terrain_cat', 'h', 'd', 'w', 'z', 'rho', 'cpi', 'roof_type', 'roof_angle'];
+inputsToWatch.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+        el.addEventListener('input', autoCalc);
+        el.addEventListener('change', autoCalc);
     }
 });

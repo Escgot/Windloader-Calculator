@@ -119,14 +119,11 @@ body {
   gap: 0.75rem;
 }
 
-.brand-icon {
-  width: 36px; height: 36px;
-  background: linear-gradient(135deg, var(--blue), var(--purple));
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
+.brand-logo {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 6px;
   flex-shrink: 0;
 }
 
@@ -813,7 +810,236 @@ body {
 
 .leaflet-container { background: #0a1120 !important; }
 
+/* ── Highlight Colors for KPIs ── */
+.kpi-card.highlight-red {
+  background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.02));
+  border-color: rgba(239,68,68,0.3);
+}
+.kpi-card.highlight-red::before { background: linear-gradient(90deg, #f87171, #ef4444); }
+.kpi-card.highlight-red .kpi-value { color: #ef4444; }
+
+.kpi-card.highlight-blue {
+  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(59,130,246,0.02));
+  border-color: rgba(59,130,246,0.3);
+}
+.kpi-card.highlight-blue::before { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
+.kpi-card.highlight-blue .kpi-value { color: #3b82f6; }
+
+/* ── Viewport Color Legend ── */
+.viewport-color-legend {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  z-index: 10;
+  background: rgba(8,14,26,0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  align-items: center;
+}
+.legend-scale {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-1);
+}
+.gradient-bar {
+  width: 100px;
+  height: 8px;
+  background: linear-gradient(90deg, #ef4444, #f59e0b, #fff, #60a5fa, #3b82f6);
+  border-radius: 4px;
+}
+.legend-unit {
+  font-size: 0.65rem;
+  color: var(--text-3);
+  margin-top: 0.1rem;
+}
+
+/* ── Calculation Trace ── */
+.calc-trace-container {
+  margin-top: 2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  overflow: hidden;
+}
+.trace-toggle {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: var(--surface-2);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-1);
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.trace-toggle:hover { background: var(--surface-3); }
+.trace-toggle svg { transition: transform 0.3s; color: var(--text-3); }
+.trace-toggle.open svg { transform: rotate(180deg); }
+.trace-content {
+  display: none;
+  padding: 1.25rem;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: rgba(8,14,26,0.4);
+}
+.trace-content.open { display: flex; }
+.trace-step {
+  display: grid;
+  grid-template-columns: minmax(80px, auto) auto 1fr;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-2);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.trace-step.highlight {
+  background: rgba(59,130,246,0.05);
+  border-color: rgba(59,130,246,0.15);
+}
+.trace-step.highlight .trace-val { color: var(--blue); }
+.trace-var { color: var(--text-1); font-weight: 600; }
+.trace-val { color: var(--text-1); font-weight: 700; }
+.trace-unit { color: var(--text-3); font-size: 0.75rem; }
+.trace-desc {
+  font-family: var(--font);
+  font-size: 0.75rem;
+  color: var(--text-3);
+  text-align: right;
+  margin-left: auto;
+}
+.terrain-chart-row {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: 1.25rem;
+}
+
+/* ── New Template Layout System ── */
+.new-layout {
+  padding: 1.5rem;
+  background: #0f172a;
+}
+.template-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}
+.template-col-left {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.template-col-right {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.t-row-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.t-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.t-card-header {
+  padding: 1rem 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  align-items: center;
+}
+.t-card-body {
+  padding: 1.25rem;
+  flex: 1;
+}
+.p-0 { padding: 0 !important; }
+.mt-4 { margin-top: 1.5rem !important; }
+.ml-2 { margin-left: 0.5rem !important; }
+
+/* Table styling for wind loads */
+.t-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.t-table th {
+  text-align: left;
+  padding: 0.85rem 1.25rem;
+  color: #cbd5e1;
+  font-weight: 600;
+  border-bottom: 1px solid #334155;
+  background: rgba(15, 23, 42, 0.4);
+}
+.t-table td {
+  padding: 0.85rem 1.25rem;
+  color: #f1f5f9;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  font-family: var(--font-mono);
+}
+.t-table tr:last-child td { border-bottom: none; }
+.t-table td:first-child { font-family: var(--font); color: #94a3b8; font-weight: 500; }
+
+/* Project info */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+}
+.info-row:last-child { border-bottom: none; }
+.info-label { color: #94a3b8; }
+.info-value { color: #f1f5f9; font-weight: 500; text-align: right; }
+.success-text {
+  color: #10b981;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  font-size: 0.8rem;
+}
+
+/* Overrides for KPIs inside the new grid */
+.new-layout .kpi-row { gap: 1rem; }
+.new-layout .kpi-card { background: rgba(15, 23, 42, 0.4); border-color: #334155; }
+.new-layout .kpi-value { font-size: 1.4rem; }
+
+/* Fixes for legend and chart in the new layout */
+.new-layout .viewport-color-legend { background: #0f172a; border-color: #334155; }
+.new-layout .chart-container { background: transparent; border: none; padding: 0; margin: 0; }
+
 /* ── Responsive ── */
+@media (max-width: 1200px) {
+  .template-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 900px) {
   .workspace { grid-template-columns: 1fr; height: auto; overflow: visible; }
   .sidebar { border-right: none; border-bottom: 1px solid var(--border); }

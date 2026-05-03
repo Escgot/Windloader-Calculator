@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/static/(.*)", "dest": "/public/$1" },
+    { "src": "/calculate",   "dest": "/api/index.py" },
+    { "src": "/report",      "dest": "/api/index.py" },
+    { "src": "/export-excel", "dest": "/api/index.py" },
+    { "src": "/projects(.*)", "dest": "/api/index.py" },
+    { "src": "/docs(.*)",    "dest": "/api/index.py" },
+    { "src": "/openapi.json", "dest": "/api/index.py" },
+    { "src": "/(.*\\.(js|css|html|ico|png|svg|jpg|jpeg|gif|woff2?))", "dest": "/public/$1" },
+    { "src": "/",            "dest": "/public/index.html" },
+    { "src": "/(.*)",        "dest": "/api/index.py" }
+  ]
+}
