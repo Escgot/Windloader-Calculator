@@ -232,9 +232,17 @@ class WindResponse(BaseModel):
 
 @app.get("/", tags=["Frontend"])
 def root():
-    """Serve the demo frontend."""
+    """Serve the landing page."""
     return FileResponse(
         "public/index.html",
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
+    )
+
+@app.get("/app", tags=["Frontend"])
+def web_app():
+    """Serve the windload calculator app."""
+    return FileResponse(
+        "public/app.html",
         headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
     )
 
