@@ -329,15 +329,22 @@ async function saveProject() {
     const projectName = prompt("Enter a name for this project:", `Project ${new Date().toLocaleDateString()}`);
     if (!projectName) return;
 
-    const h = parseFloat(document.getElementById('h').value);
-    const d = parseFloat(document.getElementById('d').value);
+    const h_raw = parseFloat(document.getElementById('h').value);
+    const d_raw = parseFloat(document.getElementById('d').value);
+    const vb0_raw = parseFloat(document.getElementById('vb0').value);
+    const z_raw = parseFloat(document.getElementById('z').value);
+    const rho_raw = parseFloat(document.getElementById('rho').value);
+
+    // Normalize to SI
+    const h   = currentSystem === 'imperial' ? h_raw   / CONV.m_to_ft      : h_raw;
+    const d   = currentSystem === 'imperial' ? d_raw   / CONV.m_to_ft      : d_raw;
+    const vb0 = currentSystem === 'imperial' ? vb0_raw / CONV.ms_to_mph    : vb0_raw;
+    const z   = currentSystem === 'imperial' ? z_raw   / CONV.m_to_ft      : z_raw;
+    const rho = currentSystem === 'imperial' ? rho_raw / CONV.kgm3_to_lbft3 : rho_raw;
+
     const formData = {
-        vb0: parseFloat(document.getElementById('vb0').value),
-        terrain_cat: document.getElementById('terrain_cat').value,
-        h: h,
-        d: d,
-        z: parseFloat(document.getElementById('z').value),
-        rho: parseFloat(document.getElementById('rho').value),
+        vb0, terrain_cat: document.getElementById('terrain_cat').value,
+        h, d, z, rho,
         cpi: parseFloat(document.getElementById('cpi').value),
         roof_type: document.getElementById('roof_type').value,
         roof_angle: parseFloat(document.getElementById('roof_angle').value)
@@ -511,13 +518,22 @@ document.getElementById('pdf-btn').addEventListener('click', async () => {
     btnText.style.display = 'none';
     btnLoader.style.display = 'block';
 
+    const h_raw = parseFloat(document.getElementById('h').value);
+    const d_raw = parseFloat(document.getElementById('d').value);
+    const vb0_raw = parseFloat(document.getElementById('vb0').value);
+    const z_raw = parseFloat(document.getElementById('z').value);
+    const rho_raw = parseFloat(document.getElementById('rho').value);
+
+    // Normalize to SI
+    const h   = currentSystem === 'imperial' ? h_raw   / CONV.m_to_ft      : h_raw;
+    const d   = currentSystem === 'imperial' ? d_raw   / CONV.m_to_ft      : d_raw;
+    const vb0 = currentSystem === 'imperial' ? vb0_raw / CONV.ms_to_mph    : vb0_raw;
+    const z   = currentSystem === 'imperial' ? z_raw   / CONV.m_to_ft      : z_raw;
+    const rho = currentSystem === 'imperial' ? rho_raw / CONV.kgm3_to_lbft3 : rho_raw;
+
     const formData = {
-        vb0: parseFloat(document.getElementById('vb0').value),
-        terrain_cat: document.getElementById('terrain_cat').value,
-        h: parseFloat(document.getElementById('h').value),
-        d: parseFloat(document.getElementById('d').value),
-        z: parseFloat(document.getElementById('z').value),
-        rho: parseFloat(document.getElementById('rho').value),
+        vb0, terrain_cat: document.getElementById('terrain_cat').value,
+        h, d, z, rho,
         cpi: parseFloat(document.getElementById('cpi').value),
         roof_type: document.getElementById('roof_type').value,
         roof_angle: parseFloat(document.getElementById('roof_angle').value)
@@ -562,13 +578,22 @@ document.getElementById('excel-btn').addEventListener('click', async () => {
     btnText.style.display = 'none';
     btnLoader.style.display = 'block';
 
+    const h_raw = parseFloat(document.getElementById('h').value);
+    const d_raw = parseFloat(document.getElementById('d').value);
+    const vb0_raw = parseFloat(document.getElementById('vb0').value);
+    const z_raw = parseFloat(document.getElementById('z').value);
+    const rho_raw = parseFloat(document.getElementById('rho').value);
+
+    // Normalize to SI
+    const h   = currentSystem === 'imperial' ? h_raw   / CONV.m_to_ft      : h_raw;
+    const d   = currentSystem === 'imperial' ? d_raw   / CONV.m_to_ft      : d_raw;
+    const vb0 = currentSystem === 'imperial' ? vb0_raw / CONV.ms_to_mph    : vb0_raw;
+    const z   = currentSystem === 'imperial' ? z_raw   / CONV.m_to_ft      : z_raw;
+    const rho = currentSystem === 'imperial' ? rho_raw / CONV.kgm3_to_lbft3 : rho_raw;
+
     const formData = {
-        vb0: parseFloat(document.getElementById('vb0').value),
-        terrain_cat: document.getElementById('terrain_cat').value,
-        h: parseFloat(document.getElementById('h').value),
-        d: parseFloat(document.getElementById('d').value),
-        z: parseFloat(document.getElementById('z').value),
-        rho: parseFloat(document.getElementById('rho').value),
+        vb0, terrain_cat: document.getElementById('terrain_cat').value,
+        h, d, z, rho,
         cpi: parseFloat(document.getElementById('cpi').value),
         roof_type: document.getElementById('roof_type').value,
         roof_angle: parseFloat(document.getElementById('roof_angle').value)
