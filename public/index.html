@@ -3,22 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wind Load Engine | Eurocode 1 Calculator</title>
+    <title>Wind Load Engine | Eurocode 1</title>
     <meta name="description" content="Professional wind load calculator for structural engineers. EN 1991-1-4:2005 Eurocode 1 compliant.">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="icon" type="image/png" href="/static/logo.png">
+    
     <style>
         :root {
-            --bg: #0f172a;
-            --surface: #1e293b;
-            --surface-hover: #334155;
-            --text-1: #f1f5f9;
-            --text-2: #94a3b8;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.4);
-            --gradient: linear-gradient(135deg, #3b82f6, #a855f7);
-            --border: #334155;
+            /* ClearPath inspired Palette */
+            --bg-color: #F8F7F4;
+            --text-primary: #1C2321;
+            --text-secondary: #5C6B66;
+            --accent-green: #7D9C8D;
+            --accent-green-hover: #678476;
+            --card-bg: #FFFFFF;
+            --border-light: rgba(28, 35, 33, 0.08);
+            
+            --font-serif: 'Instrument Serif', serif;
+            --font-sans: 'Inter', sans-serif;
+            
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-pill: 999px;
+            
+            --shadow-sm: 0 4px 24px rgba(0,0,0,0.03);
+            --shadow-md: 0 12px 48px rgba(0,0,0,0.06);
         }
 
         * {
@@ -28,286 +42,326 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text-1);
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
         }
 
-        /* Abstract Background Elements */
-        .bg-glow {
+        /* Abstract Blurs */
+        .blur-circle {
             position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .blur-1 {
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            background: rgba(125, 156, 141, 0.25);
             top: -200px;
-            right: -200px;
-            border-radius: 50%;
-            z-index: 0;
-            opacity: 0.5;
-            filter: blur(60px);
+            right: -100px;
         }
-
-        .bg-glow-2 {
-            position: absolute;
+        .blur-2 {
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
-            bottom: -100px;
-            left: -100px;
-            border-radius: 50%;
-            z-index: 0;
-            opacity: 0.5;
-            filter: blur(60px);
+            background: rgba(230, 220, 200, 0.4);
+            bottom: 10%;
+            left: -150px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 0 2rem;
             position: relative;
             z-index: 1;
         }
 
-        /* Navbar */
+        /* Navigation */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 2rem 0;
         }
 
         .brand {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: white;
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            color: var(--text-primary);
             text-decoration: none;
         }
 
         .brand img {
             width: 32px;
             height: 32px;
-            border-radius: 8px;
+            border-radius: 6px;
+            mix-blend-mode: multiply;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
         }
 
         .nav-links a {
-            color: var(--text-2);
+            color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s;
+            font-size: 0.95rem;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--text-1);
+            color: var(--text-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-green);
+            color: white;
+            border: 1px solid var(--accent-green);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(125, 156, 141, 0.3);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255,255,255,0.5);
+            border-color: var(--text-primary);
+        }
+
+        .dot-icon {
+            width: 6px;
+            height: 6px;
+            background-color: currentColor;
+            border-radius: 50%;
         }
 
         /* Hero Section */
         .hero {
             padding: 8rem 0 6rem;
             text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .tagline {
+        .badge {
             display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--accent);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 100px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.05em;
+            padding: 0.4rem 1rem;
+            background: rgba(125, 156, 141, 0.1);
+            color: var(--accent-green);
+            border-radius: var(--radius-pill);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            letter-spacing: 0.02em;
         }
 
         .hero h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
+            font-family: var(--font-serif);
+            font-size: 5.5rem;
+            font-weight: 400;
+            line-height: 1.05;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
         }
-
-        .hero h1 span {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        
+        .hero h1 i {
+            color: var(--accent-green);
         }
 
         .hero p {
             font-size: 1.25rem;
-            color: var(--text-2);
+            color: var(--text-secondary);
             max-width: 600px;
             margin: 0 auto 3rem;
+            font-weight: 300;
+            line-height: 1.7;
         }
 
-        .cta-buttons {
+        .hero-actions {
             display: flex;
+            justify-content: center;
             gap: 1rem;
+        }
+
+        /* Mockup / Image Section */
+        .showcase {
+            padding: 0 0 8rem;
+            display: flex;
             justify-content: center;
         }
 
-        .btn {
-            display: inline-flex;
+        .showcase-window {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+        
+        .showcase-inner {
+            background-color: #0f172a; /* Glimpse of the dark app */
+            border-radius: var(--radius-md);
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.875rem 2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
-            cursor: pointer;
+            position: relative;
         }
-
-        .btn-primary {
-            background: var(--accent);
+        
+        .showcase-inner h2 {
+            font-family: var(--font-serif);
             color: white;
-            border: 1px solid var(--accent);
-            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
-        }
-
-        .btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .btn-secondary {
-            background: var(--surface);
-            color: var(--text-1);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--surface-hover);
+            font-size: 2.5rem;
+            font-weight: 400;
+            opacity: 0.8;
+            letter-spacing: 0.05em;
         }
 
         /* Features Section */
         .features {
-            padding: 5rem 0;
+            padding: 6rem 0;
+            background-color: white;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
         .feature-card {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: transform 0.2s, background 0.2s;
+            background: var(--bg-color);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2.5rem;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid transparent;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            background: rgba(30, 41, 59, 0.8);
-            border-color: rgba(255,255,255,0.1);
+            transform: translateY(-8px);
+            background: var(--card-bg);
+            border-color: var(--border-light);
+            box-shadow: var(--shadow-sm);
         }
 
         .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            color: var(--accent-green);
             margin-bottom: 1.5rem;
+            font-style: italic;
         }
 
         .feature-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
             font-weight: 600;
+            font-family: var(--font-sans);
         }
 
         .feature-card p {
-            color: var(--text-2);
-            font-size: 0.95rem;
-        }
-
-        /* Interactive Preview (Image/Mockup placeholder) */
-        .preview-section {
-            padding: 4rem 0 8rem;
-        }
-
-        .app-window {
-            background: #000;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .app-window-header {
-            background: #1e293b;
-            padding: 0.75rem 1rem;
-            display: flex;
-            gap: 0.5rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #475569;
-        }
-
-        .dot.red { background: #ef4444; }
-        .dot.yellow { background: #f59e0b; }
-        .dot.green { background: #10b981; }
-
-        .app-window-body {
-            aspect-ratio: 16 / 9;
-            background: url('/static/logo.png') center / 15% no-repeat; /* Fallback */
-            background-color: var(--surface);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .app-window-body img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        
-        .app-window-body:hover img {
-            opacity: 1;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            font-weight: 300;
         }
 
         /* Footer */
         footer {
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 3rem 0;
+            padding: 5rem 0;
             text-align: center;
-            color: var(--text-2);
-            font-size: 0.875rem;
+            position: relative;
+        }
+
+        .footer-content h2 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .footer-bottom {
+            margin-top: 4rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-light);
+            padding-top: 2rem;
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1.1rem; }
+            .hero h1 { font-size: 3.5rem; }
+            .hero { padding: 5rem 0 4rem; }
+            .features { padding: 4rem 0; }
+            .section-header h2 { font-size: 2.5rem; }
+            .footer-bottom { flex-direction: column; gap: 1rem; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-    <div class="bg-glow-2"></div>
+    <div class="blur-circle blur-1"></div>
+    <div class="blur-circle blur-2"></div>
 
     <div class="container">
         <nav>
@@ -316,65 +370,75 @@
                 Wind Load Engine
             </a>
             <div class="nav-links">
-                <a href="/docs" target="_blank">API Docs</a>
+                <a href="/docs" target="_blank">API Documentation</a>
+                <a href="https://github.com/Escgot/Windloader-Calculator" target="_blank">GitHub</a>
             </div>
+            <a href="/app" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size:0.75rem;">
+                Open App <span class="dot-icon" style="background-color: white;"></span>
+            </a>
         </nav>
 
         <section class="hero">
-            <div class="tagline">EN 1991-1-4:2005 Compliant</div>
-            <h1>The Modern Way to<br><span>Calculate Wind Loads</span></h1>
-            <p>A professional-grade engineering engine that translates complex structural codes into clean, robust, and lightning-fast software.</p>
-            <div class="cta-buttons">
+            <div class="badge">EN 1991-1-4:2005 Eurocode 1</div>
+            <h1>Structural engineering,<br><i>refined.</i></h1>
+            <p>A beautifully designed, deeply technical engine that translates complex wind load codes into clean, robust, and lightning-fast software.</p>
+            
+            <div class="hero-actions">
                 <a href="/app" class="btn btn-primary">
-                    Launch Application
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:8px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    Start Calculating <span class="dot-icon"></span>
                 </a>
-                <a href="https://github.com/Escgot/Windloader-Calculator" target="_blank" class="btn btn-secondary">View Source</a>
+                <a href="/docs" class="btn btn-outline" target="_blank">
+                    Read the Docs
+                </a>
             </div>
         </section>
 
-        <section class="preview-section">
-            <div class="app-window">
-                <div class="app-window-header">
-                    <div class="dot red"></div>
-                    <div class="dot yellow"></div>
-                    <div class="dot green"></div>
-                </div>
-                <div class="app-window-body">
-                    <!-- If you have a screenshot of the app, you can place it here. For now, it will just be a styled dark window. -->
-                    <h2 style="color:var(--text-2); font-weight:400; letter-spacing: 2px;">PREMIUM DASHBOARD</h2>
+        <section class="showcase">
+            <div class="showcase-window">
+                <div class="showcase-inner">
+                    <h2>Premium Dashboard</h2>
                 </div>
             </div>
         </section>
+    </div>
 
-        <section class="features">
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Precision meets Design</h2>
+            </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                    </div>
+                    <div class="feature-icon">01</div>
                     <h3>Dynamic 3D Visualizer</h3>
-                    <p>Real-time Three.js integration visually represents building geometry and roof pitch with interactive pressure zoning labels directly on the model.</p>
+                    <p>Experience real-time Three.js integration that visually represents building geometry with interactive pressure zoning labels right on the model surfaces.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    </div>
+                    <div class="feature-icon">02</div>
                     <h3>Real-Time Engine</h3>
-                    <p>Instant data updates as inputs change, powered by a debounced reactive frontend and a blazingly fast FastAPI backend.</p>
+                    <p>Witness instant data updates as your inputs change. Powered by a debounced reactive frontend and a blazingly fast FastAPI backend.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    </div>
+                    <div class="feature-icon">03</div>
                     <h3>Professional Reports</h3>
-                    <p>Generate high-quality PDF calculation reports and Excel data exports instantly, complete with calculation traces for validation.</p>
+                    <p>Generate high-quality PDF calculation reports and Excel data exports instantly, complete with comprehensive calculation traces for peer review.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
+    <div class="container">
         <footer>
-            <p>&copy; 2024 Wind Load Engine. Engineered for EN 1991-1-4.</p>
+            <div class="footer-content">
+                <h2>Ready to transform your workflow?</h2>
+                <a href="/app" class="btn btn-primary">
+                    Launch Workspace <span class="dot-icon"></span>
+                </a>
+            </div>
+            <div class="footer-bottom">
+                <div class="brand" style="font-size: 1.25rem;">Wind Load Engine</div>
+                <p>&copy; 2024 Built for Civil Engineers.</p>
+            </div>
         </footer>
     </div>
 
