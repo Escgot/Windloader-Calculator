@@ -1,7 +1,7 @@
 import React from "react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import { motion } from "framer-motion";
-import { Wind, Zap, FileText, Box, ArrowRight, Github, Menu, X } from "lucide-react";
+import { Wind, Zap, FileText, Box, ArrowRight, Github, Menu, X, Cloud, MapPin, Check } from "lucide-react";
 
 const VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260210_031346_d87182fb-b0af-4273-84d1-c6fd17d6bf0f.mp4";
@@ -19,33 +19,34 @@ const Logo = () => (
 
 const features = [
   {
+    icon: <Wind className="w-6 h-6" />,
+    title: "Eurocode Compliant",
+    description: "Full implementation of EN 1991-1-4:2005 with all pressure coefficients, zones, and structural factors.",
+  },
+  {
     icon: <Box className="w-6 h-6" />,
-    title: "Dynamic 3D Visualizer",
-    description:
-      "Real-time Three.js integration with interactive pressure zoning labels directly rendered on each building surface. Experience structural data in full three dimensions.",
-    className: "md:col-span-2 md:row-span-2",
-    bgImage: "/tech-bg.png",
+    title: "3D Building Modelling",
+    description: "Visualize your structure with interactive 3D models and automatic wind pressure zone detection.",
   },
   {
     icon: <Zap className="w-6 h-6" />,
-    title: "Real-Time Engine",
-    description:
-      "Instant calculation updates as inputs change, powered by a blazingly fast FastAPI backend. No more waiting for reports.",
-    className: "md:col-span-1 md:row-span-1",
+    title: "Instant Results",
+    description: "Get comprehensive results including pressures, suction, resultant forces, and pressure distributions in milliseconds.",
+  },
+  {
+    icon: <MapPin className="w-6 h-6" />,
+    title: "Wind Map Integration",
+    description: "Access global wind maps and regional wind speeds based on location and terrain category.",
   },
   {
     icon: <FileText className="w-6 h-6" />,
     title: "Professional Reports",
-    description:
-      "Generate high-quality PDF and Excel reports instantly. Peer-reviewed traces included.",
-    className: "md:col-span-1 md:row-span-1",
+    description: "Generate detailed calculation reports with Excel and PDF exports for your project documentation.",
   },
   {
-    icon: <Wind className="w-6 h-6" />,
-    title: "Eurocode Compliant",
-    description:
-      "Strict adherence to EN 1991-1-4:2005 with validated calculations across all terrain categories. Engineering you can trust.",
-    className: "md:col-span-2 md:row-span-1",
+    icon: <Cloud className="w-6 h-6" />,
+    title: "Cloud Workspace",
+    description: "Save, organize, and access your projects from anywhere. Collaborate with your team seamlessly.",
   },
 ];
 
@@ -246,24 +247,27 @@ const Index = () => {
       </section>
 
       {/* Features Grid */}
-      <section id="features" className="relative py-24 px-6 lg:px-[120px]">
+      <section id="features" className="relative py-32 px-6 lg:px-[120px] bg-[#030712]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <p className="text-sm font-manrope text-[#3b82f6] font-semibold tracking-wider uppercase mb-4">
-              Features
-            </p>
-            <h2 className="font-serif text-4xl md:text-6xl text-white">
-              Precision meets <em className="italic">design</em>
+            <div className="inline-flex items-center rounded-full bg-blue-500/10 px-3 py-1 mb-6 border border-blue-500/20">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-blue-400">Powerful Features</span>
+            </div>
+            <h2 className="font-manrope text-4xl md:text-5xl font-bold text-white mb-4">
+              Everything You Need for <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Wind Analysis</span>
             </h2>
+            <p className="text-white/40 text-lg">
+              Designed by structural engineers, for structural engineers.
+            </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -271,61 +275,125 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className={`relative overflow-hidden bg-[#1e293b] border border-white/5 rounded-3xl p-8 hover:border-white/10 transition-all group flex flex-col justify-end ${feature.className}`}
+                className="bg-[#0f172a]/50 border border-white/5 rounded-2xl p-8 hover:border-white/10 transition-all group"
               >
-                {feature.bgImage && (
-                  <div className="absolute inset-0 z-0">
-                    <img 
-                      src={feature.bgImage} 
-                      alt="" 
-                      className="w-full h-full object-cover opacity-30 group-hover:opacity-40 transition-opacity"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1e293b] via-[#1e293b]/50 to-transparent" />
-                  </div>
-                )}
-                
-                <div className="relative z-10">
-                  <div className="w-12 h-12 rounded-xl bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6] mb-6 group-hover:bg-[#3b82f6]/20 transition-colors">
-                    {feature.icon}
-                  </div>
-                  <h3 className="font-manrope text-2xl font-semibold text-white mb-3">
-                    {feature.title}
-                  </h3>
-                  <p className="text-white/60 leading-relaxed max-w-sm text-lg">
-                    {feature.description}
-                  </p>
+                <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6 group-hover:bg-blue-500/20 transition-colors">
+                  {feature.icon}
                 </div>
+                <h3 className="font-manrope text-xl font-bold text-white mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-white/40 leading-relaxed text-sm">
+                  {feature.description}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section className="py-32 px-6 lg:px-[120px] bg-[#030712] border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center rounded-full bg-blue-500/10 px-3 py-1 mb-6 border border-blue-500/20">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-blue-400">How It Works</span>
+            </div>
+            <h2 className="font-manrope text-4xl md:text-5xl font-bold text-white mb-4">
+              From Input to Insight in <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">3 Simple Steps</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              {
+                step: "1",
+                title: "Input Parameters",
+                desc: "Enter building geometry, location, terrain, and wind parameters through our intuitive interface.",
+                icon: <FileText className="w-6 h-6 text-blue-400" />,
+                color: "bg-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.3)]",
+              },
+              {
+                step: "2",
+                title: "Compute",
+                desc: "Our engine performs complex Eurocode calculations in under 50 milliseconds.",
+                icon: <Zap className="w-6 h-6 text-purple-400" />,
+                color: "bg-purple-500/20 shadow-[0_0_20px_rgba(168,85,247,0.3)]",
+              },
+              {
+                step: "3",
+                title: "Get Results",
+                desc: "View results instantly with visualizations, charts, and export professional reports.",
+                icon: <Box className="w-6 h-6 text-green-400" />,
+                color: "bg-green-500/20 shadow-[0_0_20px_rgba(34,197,94,0.3)]",
+              },
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-start gap-6">
+                <div className={`flex-shrink-0 w-16 h-16 rounded-full ${item.color} flex items-center justify-center`}>
+                  {item.icon}
+                </div>
+                <div>
+                  <h3 className="font-manrope text-xl font-bold text-white mb-2">
+                    {item.step}. {item.title}
+                  </h3>
+                  <p className="text-white/40 text-sm leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-24 px-6 lg:px-[120px]">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center"
-        >
-          <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-            Ready to transform <br />
-            <em className="italic">your workflow?</em>
-          </h2>
-          <p className="text-white/60 text-lg mb-10 max-w-lg mx-auto">
-            Join structural engineers who have already automated their wind load
-            calculations. Start now — it's free.
-          </p>
-          <a
-            href="/app"
-            className="group inline-flex items-center gap-2 rounded-[10px] bg-[#3b82f6] px-8 py-4 font-manrope text-[16px] font-semibold text-white transition-colors hover:bg-[#2563eb]"
-          >
-            Launch Workspace
-            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-          </a>
-        </motion.div>
+      <section className="py-32 px-6 lg:px-[120px] bg-[#030712]">
+        <div className="max-w-6xl mx-auto">
+          <div className="relative overflow-hidden bg-[#0f172a]/40 border border-white/10 rounded-[32px] p-8 md:p-16">
+            {/* Background grid/pattern could go here */}
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
+              <div className="max-w-xl">
+                <h2 className="font-manrope text-4xl md:text-5xl font-bold text-white mb-6">
+                  Ready to streamline your wind load calculations?
+                </h2>
+                <p className="text-white/40 text-lg mb-0">
+                  Join thousands of engineers who trust Wind Load Engine for accurate, fast, and reliable wind analysis.
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-6">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a
+                    href="/app"
+                    className="group inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-4 font-manrope text-[16px] font-bold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                  >
+                    Start Free Trial
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  </a>
+                  <button
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-8 py-4 font-manrope text-[16px] font-bold text-white transition-all hover:bg-white/10"
+                  >
+                    Schedule Demo
+                    <Box size={18} />
+                  </button>
+                </div>
+                <div className="flex items-center gap-6 text-[13px] text-white/40">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-blue-500/20 flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                    </div>
+                    14-day free trial
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-blue-500/20 flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                    </div>
+                    No credit card required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Footer */}
