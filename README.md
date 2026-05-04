@@ -1,121 +1,111 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Wind%20Load%20Calculator-Pro%20Max-000000?style=for-the-badge&logo=fastapi&logoColor=00E5FF" alt="Logo">
-  <h1>💨 Eurocode 1 (EN 1991-1-4) Wind Load API</h1>
-  <p><em>A professional-grade engineering engine designed to translate complex structural codes into clean, robust software.</em></p>
+  <img src="https://img.shields.io/badge/Wind%20Load%20Engine-Pro%20SaaS-0f172a?style=for-the-badge&logo=react&logoColor=61DAFB" alt="Logo">
+  <h1>💨 Wind Load Engine | Eurocode 1 Calculator</h1>
+  <p><em>A premium structural engineering suite translating complex codes into high-performance, visually stunning software.</em></p>
 
-  [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org)
-  [![FastAPI](https://img.shields.io/badge/FastAPI-0.115.0-009688.svg?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-  [![Test Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg?style=flat-square&logo=pytest)](tests/)
+  [![React](https://img.shields.io/badge/Frontend-React%2018-blue.svg?style=flat-square&logo=react&logoColor=white)](https://react.dev)
+  [![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind%20CSS-38B2AC.svg?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+  [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+  [![Framer Motion](https://img.shields.io/badge/Animations-Framer%20Motion-FF0055.svg?style=flat-square&logo=framer&logoColor=white)](https://framer.com/motion)
   [![License](https://img.shields.io/badge/License-MIT-gray.svg?style=flat-square)](LICENSE)
 </div>
 
 <br />
 
-## 🌟 Executive Summary
+## 🌟 Overview
 
-This project translates domain-specific structural engineering knowledge into clean, usable software. It handles the complex, iterative calculations required by **EN 1991-1-4:2005 (Eurocode 1, Wind Actions)**. 
-
-What used to take structural engineers ~2 hours of manual spreadsheet manipulation is now fully automated and validated in under **50 milliseconds**.
+**Wind Load Engine** is a professional-grade SaaS platform designed for structural engineers. It automates the complex, iterative calculation procedures required by **EN 1991-1-4:2005 (Eurocode 1, Wind Actions)**, transforming hours of manual work into milliseconds of precise, validated results.
 
 ### 🚀 Key Engineering Implementations
-- **Strict Adherence to Standards**: Implemented EN 1991-1-4 wind action calculations in pure Python.
-- **Test-Driven Development**: Validated against 6 standard worked examples with **100% test coverage**.
-- **RESTful Architecture**: Built a FastAPI REST service with rigid Pydantic schema validation, rejecting physically impossible inputs before they hit the calculation engine.
-- **Advanced Geometry Support**: Computes dynamic pressure zones for flat, monopitch, and duopitch roofs (Zones F, G, H, I), including internal pressures ($c_{pi}$) and structural factors ($c_s c_d$).
-- **Professional Exports**: Generate high-quality Excel (`.xlsx`) and PDF calculation reports instantly.
+- **Strict Adherence to Standards**: Full implementation of EN 1991-1-4:2005 including pressure coefficients, zones, and structural factors ($c_s c_d$).
+- **Instant Computation**: Get peak velocity pressures ($q_p$), suction zones, and resultant forces in under **50ms**.
+- **Professional Reporting**: Generate high-quality Excel (`.xlsx`) and PDF calculation reports instantly.
+- **Validated Results**: Engine verified against industry-standard worked examples with 100% test coverage.
 
 ---
 
-## 💻 The Premium Interface
+## 🎨 Premium UI/UX Experience
 
-The backend is complemented by a "Dark Glass" inspired UI dashboard that provides immediate visual feedback.
+The platform features a modern, high-end SaaS landing page and a "Dark Glass" inspired dashboard designed for maximum productivity.
 
-- **Dynamic 3D Visualizer**: Real-time `Three.js` integration with interactive pressure zoning labels.
-- **Real-Time Calculation Engine**: Instant data updates as inputs change, powered by a debounced reactive frontend.
-- **Metric / Imperial Bridge**: Real-time unit conversions allowing US and European engineers to collaborate seamlessly.
-- **Persistent Workspaces**: SQLite database integration to save, load, and manage complex projects across sessions.
-- **Interactive Wind Map**: Integrated Leaflet map to fetch regional basic wind speeds ($v_{b,0}$).
-- **Vercel Deployed**: Optimized for serverless deployment with a FastAPI + Frontend architecture.
+- **Glassmorphic Design**: Clean, semi-transparent interfaces with subtle blur effects and deep navy themes.
+- **Dynamic Animations**: Staggered entrance effects and floating process indicators powered by **Framer Motion**.
+- **Container Scroll Showcase**: An interactive app preview that reveals the dashboard as you scroll.
+- **Responsive Architecture**: Fully optimized for Desktop, Tablet, and Mobile workflows.
 
-<br />
+---
+
+## 🏗️ Project Structure
+
+The repository is organized into three main modules:
+
+| Module | Technology | Description |
+|:-------|:-----------|:------------|
+| **Landing Page** | React, TS, Shadcn, Framer Motion | High-conversion entry point with premium animations. |
+| **Calculation App** | HTML5, Vanilla JS, Three.js | The core interactive dashboard with 3D building visualization. |
+| **API Backend** | Python, FastAPI, Pydantic | Validated REST service for Eurocode 1 math logic. |
+
+---
 
 ## 🔗 Live Application
-The latest version of the Wind Load Engine is deployed on Vercel:
+
+The platform is deployed and fully functional on Vercel:
 **[https://windload-calculator.vercel.app/](https://windload-calculator.vercel.app/)**
 
-<br />
+---
 
 ## ⚡ Quick Start
 
 ### Local Development
 
-1. **Install dependencies**
+1. **Install Python Backend Dependencies**
    ```bash
    pip install -r requirements.txt
    ```
-2. **Start the ASGI server**
+
+2. **Run the API & Main App**
    ```bash
    uvicorn app.main:app --reload
    ```
-3. **Access the application**
-   - 🌐 **Dashboard**: [http://localhost:8000/](http://localhost:8000/)
-   - 📖 **Interactive API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+3. **Develop the Landing Page**
+   ```bash
+   cd "landing page"
+   npm install
+   npm run dev
+   ```
 
 ### Docker Deployment
 ```bash
-docker build -t wind-load-api .
-docker run -p 8000:8000 wind-load-api
+docker build -t wind-load-engine .
+docker run -p 8000:8000 wind-load-engine
 ```
 
-<br />
+---
 
 ## 🧪 Validation & Testing
 
-Engineering software must be mathematically perfect. Testing is the core of this project. The test suite validates every individual formula directly against the EN 1991-1-4 standard's worked examples.
+Engineering integrity is our core value. The test suite validates every formula directly against EN 1991-1-4 standards.
 
 ```bash
-pytest tests/ -v --cov=app
+pytest tests/ -v --cov=api
 ```
 
-<br />
+---
 
-## 📐 API Reference (Calculation Endpoint)
-
-Send a calculation request to the core engine:
-
-```bash
-curl -X POST http://localhost:8000/calculate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "vb0": 25.0,
-    "z": 10.0,
-    "h": 10.0,
-    "d": 20.0,
-    "terrain_cat": "II",
-    "rho": 1.25,
-    "cpi": 0.0,
-    "roof_type": "flat",
-    "roof_angle": 0
-  }'
-```
-
-<br />
-
-## 📖 Calculation Pipeline
+## 📐 API Pipeline (EN 1991-1-4)
 
 | Symbol | Description | Standard Reference |
 |:------:|:------------|:-------------------|
-| **$v_b$** | Basic wind velocity | §4.2, Eq. 4.1 |
-| **$c_r(z)$** | Terrain roughness factor | §4.3.2, Eq. 4.4 |
 | **$v_m(z)$** | Mean wind velocity | §4.3.1, Eq. 4.3 |
-| **$I_v(z)$** | Turbulence intensity | §4.4, Eq. 4.7 |
 | **$q_p(z)$** | Peak velocity pressure | §4.5, Eq. 4.8 |
-| **$c_{pe}$** | External pressure coefficient | Table 7.1 & 7.2 |
+| **$c_{pe}$** | External pressure coefficient | Tables 7.1 - 7.5 |
 | **$w_e$** | External wind pressure | §5.2, Eq. 5.1 |
 | **$c_s c_d$** | Structural factor | Section 6 |
 
 <br />
 
 <div align="center">
-  <p>Built for Civil Engineers and Software Architects.</p>
+  <p>Built for Structural Engineers and Software Architects.</p>
+  <p><i>Engineered for precision. Designed for speed.</i></p>
 </div>
