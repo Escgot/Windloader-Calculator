@@ -9,30 +9,27 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
     
     <link rel="icon" type="image/png" href="/static/logo.png">
     
     <style>
         :root {
-            /* ClearPath inspired Palette */
-            --bg-color: #F8F7F4;
-            --text-primary: #1C2321;
-            --text-secondary: #5C6B66;
-            --accent-green: #7D9C8D;
-            --accent-green-hover: #678476;
-            --card-bg: #FFFFFF;
-            --border-light: rgba(28, 35, 33, 0.08);
+            /* Merged Palette: Video Template + Dark Blue App Theme */
+            --bg-color: #0f172a;
+            --surface: #1e293b;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            
+            /* Brand Colors from Template */
+            --brand-purple: #3b82f6; /* Swapped purple to our blue for consistency, or keep purple #7b39fc */
+            --brand-purple-hover: #2563eb;
+            --brand-dark: rgba(30, 41, 59, 0.8);
+            --brand-dark-hover: rgba(51, 65, 85, 0.9);
             
             --font-serif: 'Instrument Serif', serif;
             --font-sans: 'Inter', sans-serif;
-            
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --radius-pill: 999px;
-            
-            --shadow-sm: 0 4px 24px rgba(0,0,0,0.03);
-            --shadow-md: 0 12px 48px rgba(0,0,0,0.06);
+            --font-nav: 'Manrope', sans-serif;
         }
 
         * {
@@ -50,79 +47,87 @@
             overflow-x: hidden;
         }
 
-        /* Abstract Blurs */
-        .blur-circle {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: 0;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        .blur-1 {
-            width: 600px;
-            height: 600px;
-            background: rgba(125, 156, 141, 0.25);
-            top: -200px;
-            right: -100px;
-        }
-        .blur-2 {
-            width: 500px;
-            height: 500px;
-            background: rgba(230, 220, 200, 0.4);
-            bottom: 10%;
-            left: -150px;
+        /* Hero Video Section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.95));
             z-index: 1;
         }
 
         /* Navigation */
         nav {
+            position: relative;
+            z-index: 20;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 0;
+            padding: 1.5rem 3rem;
+            width: 100%;
         }
 
         .brand {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-family: var(--font-serif);
-            font-size: 1.75rem;
-            color: var(--text-primary);
+            font-family: var(--font-nav);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
             text-decoration: none;
         }
 
         .brand img {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 6px;
-            mix-blend-mode: multiply;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             align-items: center;
         }
 
         .nav-links a {
-            color: var(--text-secondary);
+            font-family: var(--font-nav);
+            color: white;
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
         }
 
         .nav-links a:hover {
-            color: var(--text-primary);
+            opacity: 0.8;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
         }
 
         /* Buttons */
@@ -130,317 +135,258 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem 2rem;
-            border-radius: var(--radius-pill);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-family: var(--font-nav);
             font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            font-size: 0.95rem;
             text-decoration: none;
-            transition: all 0.3s ease;
-            gap: 0.75rem;
+            transition: all 0.2s ease;
             cursor: pointer;
         }
 
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-outline {
+            background-color: white;
+            color: #171717;
+            border: 1px solid #d4d4d4;
+        }
+
+        .btn-outline:hover {
+            background-color: #f5f5f5;
+        }
+
         .btn-primary {
-            background-color: var(--accent-green);
+            background-color: var(--brand-purple);
             color: white;
-            border: 1px solid var(--accent-green);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
         }
 
         .btn-primary:hover {
-            background-color: var(--accent-green-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(125, 156, 141, 0.3);
+            background-color: var(--brand-purple-hover);
         }
         
-        .btn-outline {
-            background-color: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border-light);
+        .btn-dark {
+            background-color: var(--brand-dark);
+            color: #f6f7f9;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
-        .btn-outline:hover {
-            background-color: rgba(255,255,255,0.5);
-            border-color: var(--text-primary);
+        .btn-dark:hover {
+            background-color: var(--brand-dark-hover);
         }
 
-        .dot-icon {
-            width: 6px;
-            height: 6px;
-            background-color: currentColor;
-            border-radius: 50%;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 8rem 0 6rem;
+        /* Hero Content */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            max-width: 900px;
-            margin: 0 auto;
+            padding: 0 2rem;
+            margin-top: -5vh; /* visually center slightly higher */
         }
 
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: rgba(125, 156, 141, 0.1);
-            color: var(--accent-green);
-            border-radius: var(--radius-pill);
-            font-size: 0.85rem;
-            font-weight: 500;
+        .badge-glass {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            height: 38px;
+            padding: 0 0.5rem;
+            border-radius: 10px;
+            background-color: rgba(85, 80, 110, 0.4);
+            border: 1px solid rgba(164, 132, 215, 0.5);
+            backdrop-filter: blur(8px);
             margin-bottom: 2rem;
-            letter-spacing: 0.02em;
         }
 
-        .hero h1 {
+        .badge-tag {
+            background-color: var(--brand-purple);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: white;
+            padding-right: 0.5rem;
+        }
+
+        .hero-content h1 {
             font-family: var(--font-serif);
             font-size: 5.5rem;
             font-weight: 400;
-            line-height: 1.05;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
-        
-        .hero h1 i {
-            color: var(--accent-green);
+            line-height: 1.1;
+            color: white;
+            max-width: 1000px;
+            margin-bottom: 1.5rem;
         }
 
-        .hero p {
-            font-size: 1.25rem;
+        .hero-content h1 i {
+            font-style: italic;
+            padding: 0 0.2rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
             color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            font-weight: 300;
-            line-height: 1.7;
+            max-width: 662px;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
         }
 
-        .hero-actions {
+        .hero-cta {
             display: flex;
-            justify-content: center;
             gap: 1rem;
         }
 
-        /* Mockup / Image Section */
-        .showcase {
-            padding: 0 0 8rem;
-            display: flex;
-            justify-content: center;
-        }
-
-        .showcase-window {
-            width: 100%;
-            max-width: 1000px;
-            background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 1rem;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-light);
-            position: relative;
-        }
-        
-        .showcase-inner {
-            background-color: #0f172a; /* Glimpse of the dark app */
-            border-radius: var(--radius-md);
-            aspect-ratio: 16/9;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .showcase-inner h2 {
-            font-family: var(--font-serif);
-            color: white;
-            font-size: 2.5rem;
-            font-weight: 400;
-            opacity: 0.8;
-            letter-spacing: 0.05em;
-        }
-
-        /* Features Section */
+        /* Features Section (Dark Theme matching the app) */
         .features {
-            padding: 6rem 0;
-            background-color: white;
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-header h2 {
-            font-family: var(--font-serif);
-            font-size: 3.5rem;
-            font-weight: 400;
-            margin-bottom: 1rem;
+            padding: 6rem 2rem;
+            background-color: var(--bg-color);
+            position: relative;
+            z-index: 10;
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .feature-card {
-            background: var(--bg-color);
-            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border-radius: 16px;
             padding: 3rem 2.5rem;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid transparent;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
         }
 
         .feature-card:hover {
-            transform: translateY(-8px);
-            background: var(--card-bg);
-            border-color: var(--border-light);
-            box-shadow: var(--shadow-sm);
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.1);
         }
 
         .feature-icon {
             font-family: var(--font-serif);
             font-size: 3rem;
-            color: var(--accent-green);
+            color: var(--brand-purple);
             margin-bottom: 1.5rem;
             font-style: italic;
         }
 
         .feature-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 1rem;
             font-weight: 600;
-            font-family: var(--font-sans);
+            color: white;
         }
 
         .feature-card p {
             color: var(--text-secondary);
-            font-size: 1.05rem;
+            font-size: 1rem;
             line-height: 1.6;
-            font-weight: 300;
         }
 
         /* Footer */
         footer {
-            padding: 5rem 0;
+            padding: 4rem 2rem;
             text-align: center;
-            position: relative;
-        }
-
-        .footer-content h2 {
-            font-family: var(--font-serif);
-            font-size: 3rem;
-            font-weight: 400;
-            margin-bottom: 2rem;
-        }
-
-        .footer-bottom {
-            margin-top: 4rem;
+            background-color: var(--bg-color);
+            border-top: 1px solid rgba(255,255,255,0.05);
             color: var(--text-secondary);
             font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border-light);
-            padding-top: 2rem;
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3.5rem; }
-            .hero { padding: 5rem 0 4rem; }
-            .features { padding: 4rem 0; }
-            .section-header h2 { font-size: 2.5rem; }
-            .footer-bottom { flex-direction: column; gap: 1rem; }
-            .nav-links { display: none; }
+            nav { padding: 1rem; }
+            .nav-links, .nav-actions { display: none; }
+            .hero-content h1 { font-size: 3.5rem; }
+            .hero-cta { flex-direction: column; width: 100%; max-width: 300px; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="blur-circle blur-1"></div>
-    <div class="blur-circle blur-2"></div>
+    <section class="hero-section">
+        <!-- Background Video from the Template -->
+        <video autoPlay loop muted playsInline class="video-bg">
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260210_031346_d87182fb-b0af-4273-84d1-c6fd17d6bf0f.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
 
-    <div class="container">
         <nav>
             <a href="/" class="brand">
                 <img src="/static/logo.png" alt="Logo">
                 Wind Load Engine
             </a>
             <div class="nav-links">
-                <a href="/docs" target="_blank">API Documentation</a>
+                <a href="#features">Features</a>
+                <a href="/docs" target="_blank">API Docs</a>
                 <a href="https://github.com/Escgot/Windloader-Calculator" target="_blank">GitHub</a>
             </div>
-            <a href="/app" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size:0.75rem;">
-                Open App <span class="dot-icon" style="background-color: white;"></span>
-            </a>
+            <div class="nav-actions">
+                <a href="https://github.com/Escgot/Windloader-Calculator" class="btn btn-outline btn-sm" target="_blank">View Source</a>
+                <a href="/app" class="btn btn-primary btn-sm">Launch App</a>
+            </div>
         </nav>
 
-        <section class="hero">
-            <div class="badge">EN 1991-1-4:2005 Eurocode 1</div>
-            <h1>Structural engineering,<br><i>refined.</i></h1>
-            <p>A beautifully designed, deeply technical engine that translates complex wind load codes into clean, robust, and lightning-fast software.</p>
+        <div class="hero-content">
+            <div class="badge-glass">
+                <span class="badge-tag">New</span>
+                <span class="badge-text">Say Hello to Wind Load Engine v2.0</span>
+            </div>
+
+            <h1>Calculate structural wind loads instantly <i>and</i> perfectly</h1>
             
-            <div class="hero-actions">
-                <a href="/app" class="btn btn-primary">
-                    Start Calculating <span class="dot-icon"></span>
-                </a>
-                <a href="/docs" class="btn btn-outline" target="_blank">
-                    Read the Docs
-                </a>
-            </div>
-        </section>
-
-        <section class="showcase">
-            <div class="showcase-window">
-                <div class="showcase-inner">
-                    <h2>Premium Dashboard</h2>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <section class="features">
-        <div class="container">
-            <div class="section-header">
-                <h2>Precision meets Design</h2>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">01</div>
-                    <h3>Dynamic 3D Visualizer</h3>
-                    <p>Experience real-time Three.js integration that visually represents building geometry with interactive pressure zoning labels right on the model surfaces.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">02</div>
-                    <h3>Real-Time Engine</h3>
-                    <p>Witness instant data updates as your inputs change. Powered by a debounced reactive frontend and a blazingly fast FastAPI backend.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">03</div>
-                    <h3>Professional Reports</h3>
-                    <p>Generate high-quality PDF calculation reports and Excel data exports instantly, complete with comprehensive calculation traces for peer review.</p>
-                </div>
+            <p>Experience the modern, fully-automated engineering workspace. Strictly compliant with EN 1991-1-4:2005 (Eurocode 1). Stop wrestling with spreadsheets.</p>
+            
+            <div class="hero-cta">
+                <a href="/app" class="btn btn-primary">Start Calculating</a>
+                <a href="/docs" class="btn btn-dark" target="_blank">Explore the API</a>
             </div>
         </div>
     </section>
 
-    <div class="container">
-        <footer>
-            <div class="footer-content">
-                <h2>Ready to transform your workflow?</h2>
-                <a href="/app" class="btn btn-primary">
-                    Launch Workspace <span class="dot-icon"></span>
-                </a>
+    <section id="features" class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">01</div>
+                <h3>Dynamic 3D Visualizer</h3>
+                <p>Experience real-time Three.js integration that visually represents building geometry with interactive pressure zoning labels right on the model surfaces.</p>
             </div>
-            <div class="footer-bottom">
-                <div class="brand" style="font-size: 1.25rem;">Wind Load Engine</div>
-                <p>&copy; 2024 Built for Civil Engineers.</p>
+            <div class="feature-card">
+                <div class="feature-icon">02</div>
+                <h3>Real-Time Engine</h3>
+                <p>Witness instant data updates as your inputs change. Powered by a debounced reactive frontend and a blazingly fast FastAPI backend.</p>
             </div>
-        </footer>
-    </div>
+            <div class="feature-card">
+                <div class="feature-icon">03</div>
+                <h3>Professional Reports</h3>
+                <p>Generate high-quality PDF calculation reports and Excel data exports instantly, complete with comprehensive calculation traces for peer review.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Wind Load Engine. Built for Civil Engineers.</p>
+    </footer>
 
 </body>
 </html>
