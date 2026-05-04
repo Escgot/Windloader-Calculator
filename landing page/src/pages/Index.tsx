@@ -22,25 +22,30 @@ const features = [
     icon: <Box className="w-6 h-6" />,
     title: "Dynamic 3D Visualizer",
     description:
-      "Real-time Three.js integration with interactive pressure zoning labels directly rendered on each building surface.",
+      "Real-time Three.js integration with interactive pressure zoning labels directly rendered on each building surface. Experience structural data in full three dimensions.",
+    className: "md:col-span-2 md:row-span-2",
+    bgImage: "/tech-bg.png",
   },
   {
     icon: <Zap className="w-6 h-6" />,
     title: "Real-Time Engine",
     description:
-      "Instant calculation updates as inputs change, powered by a debounced reactive frontend and a blazingly fast FastAPI backend.",
+      "Instant calculation updates as inputs change, powered by a blazingly fast FastAPI backend. No more waiting for reports.",
+    className: "md:col-span-1 md:row-span-1",
   },
   {
     icon: <FileText className="w-6 h-6" />,
     title: "Professional Reports",
     description:
-      "Generate high-quality PDF calculation reports and Excel data exports instantly, with comprehensive calculation traces for peer review.",
+      "Generate high-quality PDF and Excel reports instantly. Peer-reviewed traces included.",
+    className: "md:col-span-1 md:row-span-1",
   },
   {
     icon: <Wind className="w-6 h-6" />,
     title: "Eurocode Compliant",
     description:
-      "Strict adherence to EN 1991-1-4:2005 with validated calculations across all five terrain categories (0 through IV).",
+      "Strict adherence to EN 1991-1-4:2005 with validated calculations across all terrain categories. Engineering you can trust.",
+    className: "md:col-span-2 md:row-span-1",
   },
 ];
 
@@ -258,7 +263,7 @@ const Index = () => {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -266,17 +271,30 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-[#1e293b] border border-white/5 rounded-2xl p-8 hover:border-white/10 transition-all group"
+                className={`relative overflow-hidden bg-[#1e293b] border border-white/5 rounded-3xl p-8 hover:border-white/10 transition-all group flex flex-col justify-end ${feature.className}`}
               >
-                <div className="w-12 h-12 rounded-xl bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6] mb-6 group-hover:bg-[#3b82f6]/20 transition-colors">
-                  {feature.icon}
+                {feature.bgImage && (
+                  <div className="absolute inset-0 z-0">
+                    <img 
+                      src={feature.bgImage} 
+                      alt="" 
+                      className="w-full h-full object-cover opacity-30 group-hover:opacity-40 transition-opacity"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1e293b] via-[#1e293b]/50 to-transparent" />
+                  </div>
+                )}
+                
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-xl bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6] mb-6 group-hover:bg-[#3b82f6]/20 transition-colors">
+                    {feature.icon}
+                  </div>
+                  <h3 className="font-manrope text-2xl font-semibold text-white mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-white/60 leading-relaxed max-w-sm text-lg">
+                    {feature.description}
+                  </p>
                 </div>
-                <h3 className="font-manrope text-xl font-semibold text-white mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-white/60 leading-relaxed">
-                  {feature.description}
-                </p>
               </motion.div>
             ))}
           </div>
