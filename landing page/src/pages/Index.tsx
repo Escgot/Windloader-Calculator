@@ -271,15 +271,30 @@ const Index = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <motion.div 
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.1
+                }
+              }
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-[#0f172a]/50 border border-white/5 rounded-2xl p-8 hover:border-white/10 transition-all group"
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  show: { opacity: 1, y: 0 }
+                }}
+                whileHover={{ y: -5, scale: 1.02 }}
+                className="bg-[#0f172a]/50 border border-white/5 rounded-2xl p-8 hover:border-blue-500/30 transition-all duration-300 group cursor-default"
               >
                 <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6 group-hover:bg-blue-500/20 transition-colors">
                   {feature.icon}
@@ -292,7 +307,7 @@ const Index = () => {
                 </p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -332,10 +347,21 @@ const Index = () => {
                 color: "bg-green-500/20 shadow-[0_0_20px_rgba(34,197,94,0.3)]",
               },
             ].map((item, idx) => (
-              <div key={idx} className="flex items-start gap-6">
-                <div className={`flex-shrink-0 w-16 h-16 rounded-full ${item.color} flex items-center justify-center`}>
+              <motion.div 
+                key={idx} 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.2 }}
+                viewport={{ once: true }}
+                className="flex items-start gap-6"
+              >
+                <motion.div 
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: idx * 0.5 }}
+                  className={`flex-shrink-0 w-16 h-16 rounded-full ${item.color} flex items-center justify-center`}
+                >
                   {item.icon}
-                </div>
+                </motion.div>
                 <div>
                   <h3 className="font-manrope text-xl font-bold text-white mb-2">
                     {item.step}. {item.title}
@@ -344,7 +370,7 @@ const Index = () => {
                     {item.desc}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -366,19 +392,25 @@ const Index = () => {
               </div>
               <div className="flex flex-col items-center gap-6">
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <a
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    animate={{ boxShadow: ["0 0 20px rgba(37,99,235,0.2)", "0 0 40px rgba(37,99,235,0.4)", "0 0 20px rgba(37,99,235,0.2)"] }}
+                    transition={{ duration: 3, repeat: Infinity }}
                     href="/app"
-                    className="group inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-4 font-manrope text-[16px] font-bold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                    className="group inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 py-4 font-manrope text-[16px] font-bold text-white transition-all hover:bg-blue-500"
                   >
                     Start Free Trial
                     <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-                  </a>
-                  <button
-                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-8 py-4 font-manrope text-[16px] font-bold text-white transition-all hover:bg-white/10"
+                  </motion.a>
+                  <motion.button
+                    whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-8 py-4 font-manrope text-[16px] font-bold text-white transition-all"
                   >
                     Schedule Demo
                     <Box size={18} />
-                  </button>
+                  </motion.button>
                 </div>
                 <div className="flex items-center gap-6 text-[13px] text-white/40">
                   <div className="flex items-center gap-2">
