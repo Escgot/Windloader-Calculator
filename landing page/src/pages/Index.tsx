@@ -294,7 +294,7 @@ const Index = () => {
                   show: { opacity: 1, y: 0 }
                 }}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="bg-[#0f172a]/50 border border-white/5 rounded-2xl p-8 hover:border-blue-500/30 transition-all duration-300 group cursor-default"
+                className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-8 hover:border-blue-500/30 transition-all duration-300 group cursor-default"
               >
                 <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6 group-hover:bg-blue-500/20 transition-colors">
                   {feature.icon}
