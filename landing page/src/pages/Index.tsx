@@ -6,7 +6,7 @@ import { Wind, Zap, FileText, Box, ArrowRight, Github, Menu, X } from "lucide-re
 const VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260210_031346_d87182fb-b0af-4273-84d1-c6fd17d6bf0f.mp4";
 
-const APP_SCREENSHOT = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&h=720&fit=crop&q=80";
+const APP_SCREENSHOT = "/dashboard.png";
 
 const Logo = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo">
@@ -320,7 +320,7 @@ const Index = () => {
             </span>
           </div>
           <p className="text-white/40 text-sm">
-            © 2024 Built for Civil Engineers & Software Architects.
+            © 2026 Built for Civil Engineers & Software Architects.
           </p>
         </div>
       </footer>
