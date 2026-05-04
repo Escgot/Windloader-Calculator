@@ -80,10 +80,10 @@ const Index = () => {
               </span>
             </a>
             <ul className="hidden items-center gap-8 lg:flex">
-              {["Features", "API Docs", "GitHub"].map((item) => (
+              {["Features", "How it Works", "API Docs", "GitHub"].map((item) => (
                 <li key={item}>
                   <a
-                    href={item === "API Docs" ? "/docs" : item === "GitHub" ? "https://github.com/Escgot/Windloader-Calculator" : "#features"}
+                    href={item === "API Docs" ? "/docs" : item === "GitHub" ? "https://github.com/Escgot/Windloader-Calculator" : item === "How it Works" ? "#how-it-works" : "#features"}
                     target={item === "GitHub" ? "_blank" : undefined}
                     rel={item === "GitHub" ? "noopener noreferrer" : undefined}
                     className="flex items-center gap-1 font-manrope text-[14px] font-medium text-white transition-opacity hover:opacity-80"
@@ -132,9 +132,13 @@ const Index = () => {
               </button>
             </div>
             <ul className="mt-12 flex flex-col gap-6">
-              {["Features", "API Docs", "GitHub"].map((item) => (
+              {["Features", "How it Works", "API Docs", "GitHub"].map((item) => (
                 <li key={item}>
-                  <a href="#" className="font-manrope text-2xl font-medium text-white">
+                  <a 
+                    href={item === "API Docs" ? "/docs" : item === "GitHub" ? "https://github.com/Escgot/Windloader-Calculator" : item === "How it Works" ? "#how-it-works" : "#features"}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="font-manrope text-2xl font-medium text-white"
+                  >
                     {item}
                   </a>
                 </li>
@@ -247,7 +251,7 @@ const Index = () => {
       </section>
 
       {/* Features Grid */}
-      <section id="features" className="relative py-32 px-6 lg:px-[120px] bg-[#030712]">
+      <section id="features" className="relative py-32 px-6 lg:px-[120px] bg-[#0f172a]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -293,7 +297,7 @@ const Index = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-32 px-6 lg:px-[120px] bg-[#030712] border-t border-white/5">
+      <section id="how-it-works" className="py-32 px-6 lg:px-[120px] bg-[#0f172a] border-t border-white/5">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <div className="inline-flex items-center rounded-full bg-blue-500/10 px-3 py-1 mb-6 border border-blue-500/20">
@@ -347,7 +351,7 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 px-6 lg:px-[120px] bg-[#030712]">
+      <section className="py-32 px-6 lg:px-[120px] bg-[#0f172a]">
         <div className="max-w-6xl mx-auto">
           <div className="relative overflow-hidden bg-[#0f172a]/40 border border-white/10 rounded-[32px] p-8 md:p-16">
             {/* Background grid/pattern could go here */}
